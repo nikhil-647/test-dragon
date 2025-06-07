@@ -9,9 +9,9 @@ export const auth = defineAuth({
     email: true,
   },
   userAttributes: {
-    nickname: {
-      mutable: true,
-      required: true
+    'custom:display_name': {
+      dataType: 'String',
+      mutable: true
     }
   }
 });
