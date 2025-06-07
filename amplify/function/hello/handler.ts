@@ -5,5 +5,5 @@ import { env } from "$amplify/env/sayHello";
 export const handler: HandlerType = async (event, context: any) => {
     const { MY_REGION, MY_TABLE_NAME } = env;
     const { name } = event.arguments;
-    return `Hello, ${name} Dragon! ${MY_REGION} ${MY_TABLE_NAME}`;
+    return `Hello, ${name} Dragon ball! ${MY_REGION} ${MY_TABLE_NAME}`;
 };
