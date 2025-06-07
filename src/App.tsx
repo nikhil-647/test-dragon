@@ -2,6 +2,9 @@ import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import { fetchUserAttributes } from '@aws-amplify/auth';
+import { useState, useEffect } from 'react';
+
 const client = generateClient<Schema>();
 
 async function sayHello() {
@@ -11,10 +14,10 @@ async function sayHello() {
 
 function App() {
   return (
-    <Authenticator>
-            {({ signOut, user }) => (
+    <Authenticator signUpAttributes={['nickname']}>
+            {({ signOut }) => (
               <>
-                <h1>Hello {user?.username}</h1>
+                <UserDetails />
                 <main>
                   <button onClick={sayHello}>Say Hello Dragon</button>
                 </main>
@@ -23,6 +26,24 @@ function App() {
             )}
     </Authenticator>
   );
+}
+
+const UserDetails = () => {
+  const [nickname, setNickname] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAttributes = async () => {
+      const attributes = await fetchUserAttributes();
+      setNickname(attributes?.nickname || null);
+    };
+    fetchAttributes();
+  }, []);
+
+  return (
+    <div>
+      <h1>Hello {nickname}</h1>
+    </div>
+  )
 }
 
 export default App;
